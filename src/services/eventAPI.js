@@ -2,7 +2,7 @@ import Client from "./api";
 
 export const getEvents = async (params = {}) => {
     try {
-        const response = await Client.get("/events", { params });
+        const response = await Client.get("/events/", { params });
         return response.data;
     } catch (error) {
         console.error("Error fetching events:", error);
@@ -12,7 +12,7 @@ export const getEvents = async (params = {}) => {
 
 export const getEvent = async (eventId) => {
     try {
-        const response = await Client.get(`/events/${eventId}`);
+        const response = await Client.get(`/events/${eventId}/`);
         return response.data;
     } catch (error) {
         console.error(`Error fetching event with id: ${eventId}`, error);

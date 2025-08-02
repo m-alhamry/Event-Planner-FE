@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Create an instance of axios with the base URL set to the API URL
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api"; // Default to local API if not set
+const API_URL = import.meta.env.VITE_API_URL; // Default to local API if not set
 const Client = axios.create({
     baseURL: API_URL,
 });
@@ -11,7 +11,7 @@ Client.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("access_token");
         // Prevent adding token to refresh token requests
-        if (token && !config.url.includes("/auth/token/refresh")) {
+        if (token && !config.url.includes("/auth/token/refresh/")) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
@@ -32,7 +32,7 @@ Client.interceptors.response.use(
             try {
                 const refreshToken = localStorage.getItem("refresh_token");
                 if (refreshToken) {
-                    const response = await Client.post("/auth/token/refresh", {
+                    const response = await Client.post("/auth/token/refresh/", {
                         refresh: refreshToken,
                     });
                     const { access } = response.data;

@@ -2,7 +2,7 @@ import Client from "./api";
 
 export const signup = async (userData) => {
     try {
-        const response = await Client.post("/auth/signup", userData);
+        const response = await Client.post("/auth/signup/", userData);
         if (response.data && response.data.access_token && response.data.refresh_token) {
             const { access_token, refresh_token, user } = response.data;
             // Store tokens and user data in local storage
@@ -22,7 +22,7 @@ export const signup = async (userData) => {
 
 export const signin = async (credentials) => {
     try {
-        const response = await Client.post("/auth/signin", credentials);
+        const response = await Client.post("/auth/signin/", credentials);
         if (response.data && response.data.access_token && response.data.refresh_token) {
             const { access_token, refresh_token, user } = response.data;
             // Store tokens and user data in local storage
@@ -44,7 +44,7 @@ export const logout = async () => {
     try {
         const refreshToken = localStorage.getItem("refresh_token");
         if (refreshToken) {
-            await Client.post("/auth/logout", { refresh_token: refreshToken });
+            await Client.post("/auth/logout/", { refresh_token: refreshToken });
         }
     }
     catch (error) {
@@ -61,7 +61,7 @@ export const logout = async () => {
 
 export const getProfile = async () => {
     try {
-        const response = await Client.get("/auth/profile");
+        const response = await Client.get("/auth/profile/");
         return response.data;
     } catch (error) {
         console.error("Get profile error:", error);
@@ -71,7 +71,7 @@ export const getProfile = async () => {
 
 export const updateProfile = async (profileData) => {
     try {
-        const response = await Client.put("/auth/profile", profileData);
+        const response = await Client.put("/auth/profile/", profileData);
         const updatedUser = response.data;
         // Update local storage with new user data
         localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -84,7 +84,7 @@ export const updateProfile = async (profileData) => {
 
 export const updatePassword = async (passwordData) => {
     try {
-        const response = await Client.put("/auth/password-update", passwordData);
+        const response = await Client.put("/auth/password-update/", passwordData);
         const { access_token, refresh_token } = response.data;
         // Update tokens in local storage
         if (access_token && refresh_token) {

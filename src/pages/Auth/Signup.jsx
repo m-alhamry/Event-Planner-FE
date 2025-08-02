@@ -24,12 +24,6 @@ const Signup = () => {
         setLoading(true);
         setErrors({});
 
-        // Validate form data
-        if (!formData.username || !formData.email || !formData.password || !formData.password_confirm || !formData.first_name || !formData.last_name || !formData.phone) {
-            setErrors("All fields are required.");
-            setLoading(false);
-            return;
-        }
         if (formData.password !== formData.password_confirm) {
             setErrors("Passwords do not match.");
             setLoading(false);
@@ -37,12 +31,12 @@ const Signup = () => {
         }
 
         try {
-            const response = await signup(formData);
-            if (response.status === 201) {
-                // Redirect to dashboard
+            const newUser = await signup(formData);
+            if (newUser) {
+                // Redirect with a full page reload
                 window.location.href = "/dashboard";
             } else {
-                setErrors({ non_field_errors: `Signup failed with status code ${response.status}` });
+                setErrors({ non_field_errors: "Signup failed" });
             }
         } catch (error) {
             if (error.response && error.response.data) {

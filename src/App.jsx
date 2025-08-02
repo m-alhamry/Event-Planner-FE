@@ -4,10 +4,13 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css'
 
-// Pages
+// Public Pages
 import Home from './pages/Home';
 import Signup from './pages/Auth/Signup';
 import Login from './pages/Auth/Login';
+
+// Protected Pages
+import Profile from './pages/Profile';
 
 function App() {
 
@@ -20,6 +23,11 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Protected Routes */}
+        <Route path='/profile' element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
 
         {/* 404 Route */}
         <Route path="*" element={
