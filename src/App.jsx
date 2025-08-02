@@ -11,6 +11,7 @@ import Login from './pages/Auth/Login';
 
 // Protected Pages
 import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
 
 function App() {
 
@@ -26,6 +27,11 @@ function App() {
         <Route path='/profile' element={
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        } />
+        <Route path='/dashboard' element={
+          <ProtectedRoute>
+            <Dashboard />
           </ProtectedRoute>
         } />
 

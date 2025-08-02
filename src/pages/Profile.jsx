@@ -3,7 +3,6 @@ import { updateProfile, updatePassword } from '../services/authAPI';
 
 const Profile = () => {
 
-    const token = localStorage.getItem('token');
     const user = JSON.parse(localStorage.getItem('user'));
 
     const [activeTab, setActiveTab] = useState('profile');

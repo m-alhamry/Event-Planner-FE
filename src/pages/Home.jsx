@@ -12,7 +12,7 @@ const Home = () => {
                 <p>Create, manage, and attend amazing events with ease</p>
                 {isAuthenticated ? (
                     <div>
-                        <h2>Welcome back, {user?.first_name || user?.username}!</h2>
+                        <h2>Welcome back, {user? user?.first_name || user?.username: ''}!</h2>
                         <div>
                             <Link to="/dashboard" className="btn btn-primary">
                                 Go to Dashboard
