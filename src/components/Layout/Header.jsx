@@ -18,21 +18,24 @@ const Header = () => {
                     </Link>
 
                     {token && (
-                        <nav className="nav-links">
-                            <li><Link to="/dashboard">Dashboard</Link></li>
-                            <li><Link to="/events">All Events</Link></li>
-                            <li><Link to="/my-events">My Events</Link></li>
-                            <li><Link to="attending">Attending</Link></li>
-                            <li><Link to="/create-event">Create Event</Link></li>
+                        <nav>
+                            <ul className="nav-links">
+                                <li><Link to="/dashboard">Dashboard</Link></li>
+                                <li><Link to="/events">All Events</Link></li>
+                                <li><Link to="/my-events">My Events</Link></li>
+                                <li><Link to="/attending">Attending</Link></li>
+                                <li><Link to="/create-event">Create Event</Link></li>
+                            </ul>
                         </nav>
                     )}
+
                     <div className="auth-buttons">
                         {token ? (
                             <>
                                 <Link to="/profile" className="btn btn-secondary">
-                                    {user ? user.username : "Profile"}
+                                    <center>{user?.username || 'Profile'}</center>
                                 </Link>
-                                <button className="btn btn-primary" onClick={handleLogout}>
+                                <button onClick={handleLogout} className="btn btn-primary">
                                     Logout
                                 </button>
                             </>
@@ -42,7 +45,7 @@ const Header = () => {
                                     Login
                                 </Link>
                                 <Link to="/signup" className="btn btn-primary">
-                                    Signup
+                                    Sign Up
                                 </Link>
                             </>
                         )}
@@ -50,7 +53,7 @@ const Header = () => {
                 </div>
             </div>
         </header>
-    )
-}
+    );
+};
 
 export default Header;

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { signup } from "../../services/authAPI";
 
 const Signup = () => {
+
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -14,9 +15,31 @@ const Signup = () => {
     });
     const [errors, setErrors] = useState("");
     const [loading, setLoading] = useState(false);
+    const [passwordValidity, setPasswordValidity] = useState({
+        minLength: false,
+        uppercase: false,
+        lowercase: false,
+        number: false,
+        specialChar: false,
+    });
+
+    const validatePassword = (password) => {
+        setPasswordValidity({
+            minLength: password.length >= 8,
+            uppercase: /[A-Z]/.test(password),
+            lowercase: /[a-z]/.test(password),
+            number: /[0-9]/.test(password),
+            specialChar: /[!@#$%^&*()_+\-=\[\]{}|;:,.<>?/~]/.test(password),
+        });
+    };
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+
+        if (name === 'password') {
+            validatePassword(value);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -49,10 +72,11 @@ const Signup = () => {
     };
 
     return (
-        <div className="card">
+        <div className="card" style={{ maxWidth: '500px', margin: '2rem auto' }}>
             <div className="card-header">
                 <h2 className="card-title text-center">Sign Up</h2>
             </div>
+
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="username" className="form-label">
@@ -86,8 +110,8 @@ const Signup = () => {
                     {errors.email && <div className="error-message">{errors.email}</div>}
                 </div>
 
-                <div>
-                    <div className="form-group">
+                <div style={{ display: 'flex', gap: '1rem' }}>
+                    <div className="form-group" style={{ flex: 1 }}>
                         <label htmlFor="first_name" className="form-label">
                             First Name *
                         </label>
@@ -100,10 +124,9 @@ const Signup = () => {
                             className="form-input"
                             required
                         />
-                        {errors.first_name && <div className="error-message">{errors.first_name}</div>}
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group" style={{ flex: 1 }}>
                         <label htmlFor="last_name" className="form-label">
                             Last Name *
                         </label>
@@ -114,10 +137,11 @@ const Signup = () => {
                             value={formData.last_name}
                             onChange={handleChange}
                             className="form-input"
+                            required
                         />
                     </div>
                 </div>
-                {errors.last_name && <div className="error-message">{errors.last_name}</div>}
+
                 <div className="form-group">
                     <label htmlFor="phone" className="form-label">
                         Phone Number *
@@ -132,7 +156,6 @@ const Signup = () => {
                         required
                     />
                 </div>
-                {errors.phone && <div className="error-message">{errors.phone}</div>}
 
                 <div className="form-group">
                     <label htmlFor="password" className="form-label">
@@ -149,6 +172,26 @@ const Signup = () => {
                     />
                     {errors.password && <div className="error-message">{errors.password}</div>}
                 </div>
+
+                <div style={{ marginTop: '-0.5rem', marginBottom: '1rem', fontSize: '0.8rem' }}>
+                    <p style={{ color: passwordValidity.minLength ? 'green' : 'red', margin: '0.2rem 0' }}>
+                        {passwordValidity.minLength ? '✓' : '✗'} Minimum 8 characters
+                    </p>
+                    <p style={{ color: passwordValidity.uppercase ? 'green' : 'red', margin: '0.2rem 0' }}>
+                        {passwordValidity.uppercase ? '✓' : '✗'} At least one capital letter
+                    </p>
+                    <p style={{ color: passwordValidity.lowercase ? 'green' : 'red', margin: '0.2rem 0' }}>
+                        {passwordValidity.lowercase ? '✓' : '✗'} At least one small letter
+                    </p>
+                    <p style={{ color: passwordValidity.number ? 'green' : 'red', margin: '0.2rem 0' }}>
+                        {passwordValidity.number ? '✓' : '✗'} At least one number
+                    </p>
+                    <p style={{ color: passwordValidity.specialChar ? 'green' : 'red', margin: '0.2rem 0' }}>
+                        {passwordValidity.specialChar ? '✓' : '✗'} At least one special character
+                    </p>
+                </div>
+                
+
                 <div className="form-group">
                     <label htmlFor="password_confirm" className="form-label">
                         Confirm Password *
@@ -162,18 +205,31 @@ const Signup = () => {
                         className="form-input"
                         required
                     />
-                    {errors.password_confirm && <div className="error-message">{errors.password_confirm}</div>}
+                    {errors.password_confirm && (
+                        <div className="error-message">{errors.password_confirm}</div>
+                    )}
                 </div>
-                {errors.non_field_errors && <div className="error-message">{errors.non_field_errors}</div>}
 
-                <button type="submit" className="btn btn-primary" disabled={loading}>
-                    {loading ? "Creating Account..." : "Sign Up"}
+                {errors.non_field_errors && (
+                    <div className="error-message">{errors.non_field_errors}</div>
+                )}
+
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{ width: '100%' }}
+                    disabled={loading}
+                >
+                    {loading ? 'Creating Account...' : 'Sign Up'}
                 </button>
             </form>
+
             <div className="text-center mt-2">
                 <p>
-                    Already have an account?
-                    <Link to="/login" className="link"> Login here</Link>
+                    Already have an account?{' '}
+                    <Link to="/login" style={{ color: '#667eea' }}>
+                        Login here
+                    </Link>
                 </p>
             </div>
         </div>

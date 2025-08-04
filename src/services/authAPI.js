@@ -15,7 +15,6 @@ export const signup = async (userData) => {
         }
         throw new Error("Signup failed: Invalid response data");
     } catch (error) {
-        console.error("Signup error:", error);
         throw error;
     }
 }
@@ -35,7 +34,6 @@ export const signin = async (credentials) => {
         }
         throw new Error("Signin failed: Invalid response data");
     } catch (error) {
-        console.error("Signin error:", error);
         throw error;
     }
 }
@@ -48,7 +46,6 @@ export const logout = async () => {
         }
     }
     catch (error) {
-        console.error("Logout error:", error);
     } finally {
         // Clear local storage and remove Authorization header
         localStorage.removeItem("access_token");
@@ -64,7 +61,6 @@ export const getProfile = async () => {
         const response = await Client.get("/auth/profile/");
         return response.data;
     } catch (error) {
-        console.error("Get profile error:", error);
         throw error;
     }
 }
@@ -77,7 +73,6 @@ export const updateProfile = async (profileData) => {
         localStorage.setItem("user", JSON.stringify(updatedUser));
         return updatedUser;
     } catch (error) {
-        console.error("Update profile error:", error);
         throw error;
     }
 }
@@ -94,7 +89,6 @@ export const updatePassword = async (passwordData) => {
         }
         return response.data;
     } catch (error) {
-        console.error("Update password error:", error);
         throw error;
     }
 }
@@ -110,7 +104,6 @@ export const updatePassword = async (passwordData) => {
 //         delete Client.defaults.headers.common["Authorization"];
 //         window.location.href = "/"; // Redirect to login page
 //     } catch (error) {
-//         console.error("Delete account error:", error);
 //         throw error;
 //     }
 // }

@@ -2,16 +2,15 @@ import { useState } from 'react';
 import { updateProfile, updatePassword } from '../services/authAPI';
 
 const Profile = () => {
-
     const user = JSON.parse(localStorage.getItem('user'));
 
     const [activeTab, setActiveTab] = useState('profile');
 
     // Profile form state
     const [profileData, setProfileData] = useState({
-        first_name: user? user.first_name : '',
-        last_name: user? user.last_name : '',
-        phone: user? user.phone : '',
+        first_name: user ? user.first_name : '',
+        last_name: user ? user.last_name : '',
+        phone: user ? user.phone : '',
     });
     const [profileErrors, setProfileErrors] = useState({});
     const [profileLoading, setProfileLoading] = useState(false);
@@ -68,7 +67,7 @@ const Profile = () => {
         setPasswordErrors({});
         setPasswordSuccess('');
 
-        // Password validation
+        // Client-side validation
         if (passwordData.new_password !== passwordData.new_password_confirm) {
             setPasswordErrors({ new_password_confirm: "New passwords don't match" });
             setPasswordLoading(false);
@@ -96,18 +95,40 @@ const Profile = () => {
     };
 
     return (
-        <div>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
             <div className="card-header">
                 <h1 className="card-title">Profile Settings</h1>
-                <p>Manage your account information</p>
+                <p style={{ color: '#666' }}>Manage your account information</p>
             </div>
 
             {/* Tab Navigation */}
-            <div>
-                <button onClick={() => setActiveTab('profile')}>
+            <div style={{ display: 'flex', marginBottom: '2rem', borderBottom: '1px solid #eee' }}>
+                <button
+                    onClick={() => setActiveTab('profile')}
+                    style={{
+                        padding: '1rem 2rem',
+                        border: 'none',
+                        background: 'none',
+                        cursor: 'pointer',
+                        borderBottom: activeTab === 'profile' ? '2px solid #667eea' : 'none',
+                        color: activeTab === 'profile' ? '#667eea' : '#666',
+                        fontWeight: activeTab === 'profile' ? 'bold' : 'normal',
+                    }}
+                >
                     Profile Information
                 </button>
-                <button onClick={() => setActiveTab('password')}>
+                <button
+                    onClick={() => setActiveTab('password')}
+                    style={{
+                        padding: '1rem 2rem',
+                        border: 'none',
+                        background: 'none',
+                        cursor: 'pointer',
+                        borderBottom: activeTab === 'password' ? '2px solid #667eea' : 'none',
+                        color: activeTab === 'password' ? '#667eea' : '#666',
+                        fontWeight: activeTab === 'password' ? 'bold' : 'normal',
+                    }}
+                >
                     Change Password
                 </button>
             </div>
@@ -120,23 +141,20 @@ const Profile = () => {
                     </div>
 
                     <form onSubmit={handleProfileSubmit}>
-                        <div>
-                            <div className="form-group">
-                                <label htmlFor="user_name" className="form-label">
-                                    User_name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="user_name"
-                                    name="user_name"
-                                    value={user? user.username: ""}
-                                    className="form-input"
-                                    disabled
-                                />
-                                {profileErrors.first_name && (
-                                    <div className="error-message">{profileErrors.first_name}</div>
-                                )}
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="user_name" className="form-label">
+                                User_name
+                            </label>
+                            <input
+                                type="text"
+                                id="user_name"
+                                name="user_name"
+                                value={user ? user.username : ""}
+                                className="form-input"
+                                disabled
+                            />
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                             <div className="form-group">
                                 <label htmlFor="first_name" className="form-label">
                                     First Name
@@ -148,7 +166,6 @@ const Profile = () => {
                                     value={profileData.first_name}
                                     onChange={handleProfileChange}
                                     className="form-input"
-                                    required
                                 />
                                 {profileErrors.first_name && (
                                     <div className="error-message">{profileErrors.first_name}</div>
@@ -166,7 +183,6 @@ const Profile = () => {
                                     value={profileData.last_name}
                                     onChange={handleProfileChange}
                                     className="form-input"
-                                    required
                                 />
                                 {profileErrors.last_name && (
                                     <div className="error-message">{profileErrors.last_name}</div>
@@ -182,13 +198,10 @@ const Profile = () => {
                                 type="email"
                                 id="email"
                                 name="email"
-                                value={user? user.email : ""}
+                                value={user ? user.email : ""}
                                 className="form-input"
                                 disabled
                             />
-                            {profileErrors.email && (
-                                <div className="error-message">{profileErrors.email}</div>
-                            )}
                         </div>
 
                         <div className="form-group">
@@ -202,7 +215,6 @@ const Profile = () => {
                                 value={profileData.phone}
                                 onChange={handleProfileChange}
                                 className="form-input"
-                                required
                             />
                             {profileErrors.phone && (
                                 <div className="error-message">{profileErrors.phone}</div>
@@ -221,6 +233,7 @@ const Profile = () => {
                             type="submit"
                             className="btn btn-primary"
                             disabled={profileLoading}
+                            style={{ width: '100%' }}
                         >
                             {profileLoading ? 'Updating Profile...' : 'Update Profile'}
                         </button>
@@ -302,6 +315,7 @@ const Profile = () => {
                             type="submit"
                             className="btn btn-primary"
                             disabled={passwordLoading}
+                            style={{ width: '100%' }}
                         >
                             {passwordLoading ? 'Updating Password...' : 'Update Password'}
                         </button>

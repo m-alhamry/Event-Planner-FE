@@ -3,102 +3,103 @@ import { Link } from 'react-router-dom';
 import { signin } from '../../services/authAPI';
 
 const Login = () => {
-  const [formData, setFormData] = useState({
-    username_or_email: '',
-    password: '',
-  });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+    const [formData, setFormData] = useState({
+        username_or_email: '',
+        password: '',
     });
-  };
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+        });
+    };
 
-    try {
-      const user = await signin(formData);
-      if (user) {
-        // Redirect with a full page load
-        window.location.href = '/dashboard';
-      } else {
-        setError('Login failed: no user data returned');
-      }
-    } catch (error) {
-      if (error.response && error.response.data) {
-        setError(error.response.data.detail || 'Login failed');
-      } else {
-        setError('Login failed');
-      }
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
 
-    setLoading(false);
-  };
+        try {
+            const user = await signin(formData);
+            if (user) {
+                // Redirect with a full page load
+                window.location.href = '/dashboard';
+            } else {
+                setError('Login failed: no user data returned');
+            }
+        } catch (error) {
+            if (error.response && error.response.data) {
+                setError(error.response.data.detail || 'Login failed');
+            } else {
+                setError('Login failed');
+            }
+        }
 
-  return (
-    <div className="card">
-      <div className="card-header">
-        <h2 className="card-title text-center">Login</h2>
-      </div>
+        setLoading(false);
+    };
 
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username_or_email" className="form-label">
-            Username or Email
-          </label>
-          <input
-            type="text"
-            id="username_or_email"
-            name="username_or_email"
-            value={formData.username_or_email}
-            onChange={handleChange}
-            className="form-input"
-            required
-          />
+    return (
+        <div className="card" style={{ maxWidth: '400px', margin: '2rem auto' }}>
+            <div className="card-header">
+                <h2 className="card-title text-center">Login</h2>
+            </div>
+
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="username_or_email" className="form-label">
+                        Username or Email
+                    </label>
+                    <input
+                        type="text"
+                        id="username_or_email"
+                        name="username_or_email"
+                        value={formData.username_or_email}
+                        onChange={handleChange}
+                        className="form-input"
+                        required
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="password" className="form-label">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="form-input"
+                        required
+                    />
+                </div>
+
+                {error && <div className="error-message">{error}</div>}
+
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                    style={{ width: '100%' }}
+                    disabled={loading}
+                >
+                    {loading ? 'Logging in...' : 'Login'}
+                </button>
+            </form>
+
+            <div className="text-center mt-2">
+                <p>
+                    Don't have an account?{' '}
+                    <Link to="/signup" style={{ color: '#667eea' }}>
+                        Sign up here
+                    </Link>
+                </p>
+            </div>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="form-input"
-            required
-          />
-        </div>
-
-        {error && <div className="error-message">{error}</div>}
-
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={loading}
-        >
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
-
-      <div className="text-center mt-2">
-        <p>
-          Don't have an account?{' '}
-          <Link to="/signup" style={{ color: '#667eea' }}>
-            Sign up here
-          </Link>
-        </p>
-      </div>
-    </div>
-  );
-};
+    );
+}
 
 export default Login;
