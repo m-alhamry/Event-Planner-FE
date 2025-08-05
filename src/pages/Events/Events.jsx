@@ -84,6 +84,8 @@ const Events = () => {
       {/* Search and Filter section */}
       <div className="search-filter">
         <input
+          id="searchTerm"
+          name="searchTerm"
           type="text"
           placeholder="Search events by title, owner username, description, or location..."
           value={searchTerm}
@@ -91,6 +93,8 @@ const Events = () => {
           className="form-input search-input"
         />
         <input
+          id="dateFilter"
+          name="dateFilter"
           type="date"
           value={dateFilter}
           onChange={handleDateChange}

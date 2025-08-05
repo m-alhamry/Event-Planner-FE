@@ -1,8 +1,8 @@
 import { DateTime } from "luxon";
 
-// Format date to user's local timezone
+// Format date
 export const formatDateToLocal = (dateString) => {
-    const dt = DateTime.fromISO(dateString, { zone: 'Asia/Bahrain' });
+    const dt = DateTime.fromISO(dateString);
     if (!dt.isValid) throw new Error('Invalid date');
     return dt.toLocaleString({
         weekday: 'long',
@@ -12,9 +12,9 @@ export const formatDateToLocal = (dateString) => {
     });
 };
 
-// Format time to user's local timezone
+// Format time
 export const formatTimeToLocal = (timeString) => {
-    const dt = DateTime.fromFormat(timeString, 'HH:mm:ss', { zone: 'Asia/Bahrain' });
+    const dt = DateTime.fromFormat(timeString, 'HH:mm:ss');
     if (!dt.isValid) throw new Error('Invalid time');
     return dt.toLocaleString({
         hour: 'numeric',
@@ -23,7 +23,7 @@ export const formatTimeToLocal = (timeString) => {
     });
 };
 
-// Format date and time to user's local timezone
+// Format date and time
 export const formatDateTimeToLocal = (dateString, timeString) => {
     return `${formatDateToLocal(dateString)} at ${formatTimeToLocal(timeString)}`;
 };
@@ -38,8 +38,8 @@ export const formatDateToForm = (dateString) => {
 
 // Check if an event is past
 export const isEventPast = (dateString, timeString) => {
-    // Parse the date string (e.g., "2025-08-03T00:00:00+03:00") in Asia/Bahrain
-    const eventDate = DateTime.fromISO(dateString, { zone: 'Asia/Bahrain' });
+    // Parse the date string (e.g., "2025-08-03T00:00:00+03:00")
+    const eventDate = DateTime.fromISO(dateString);
     // Parse the time string (e.g., "14:30:00") and combine with date
     const timeParts = timeString.split(':'); // [HH, mm, ss]
     // Set the time from timeString onto eventDate
@@ -48,28 +48,28 @@ export const isEventPast = (dateString, timeString) => {
         minute: parseInt(timeParts[1], 10),
         second: timeParts[2] ? parseInt(timeParts[2], 10) : 0,
     });
-    // Get current time in Asia/Bahrain
-    const now = DateTime.now().setZone('Asia/Bahrain');
+    // Get current time
+    const now = DateTime.now();
     // Compare
     return combinedDate < now;
 };
 
-// Check if an event is today based on user's local timezone
+// Check if an event is today
 export const isEventToday = (dateString) => {
-    // Parse the event date in Asia/Bahrain timezone
-    const eventDate = DateTime.fromISO(dateString, { zone: 'Asia/Bahrain' });
-    // Get current date in Asia/Bahrain
-    const today = DateTime.now().setZone('Asia/Bahrain');
+    // Parse the event date
+    const eventDate = DateTime.fromISO(dateString);
+    // Get current date
+    const today = DateTime.now();
     // Compare dates (ignoring time)
     return eventDate.hasSame(today, 'day');
 };
 
 // Check if an event is within the next 7 days
 export const isEventSoon = (dateString) => {
-    // Parse the event date in Asia/Bahrain timezone
-    const eventDate = DateTime.fromISO(dateString, { zone: 'Asia/Bahrain' });
-    // Get current date and next 7 days in Asia/Bahrain
-    const today = DateTime.now().setZone('Asia/Bahrain');
+    // Parse the event date
+    const eventDate = DateTime.fromISO(dateString);
+    // Get current date and next 7 days
+    const today = DateTime.now();
     const sevenDaysFromNow = today.plus({ days: 7 });
     // Check if event is after today but within 7 days
     return eventDate > today && eventDate <= sevenDaysFromNow && !eventDate.hasSame(today, 'day');

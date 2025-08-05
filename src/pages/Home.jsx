@@ -59,7 +59,7 @@ const Home = () => {
                                 </div>
                                 <div className="card">
                                     <h4 style={{ color: '#667eea', marginBottom: '1rem' }}>Track Attendance</h4>
-                                    <p>Keep track of who's attending your events and manage RSVPs.</p>
+                                    <p>Keep track of who's attending your events and manage your attending status.</p>
                                 </div>
                             </div>
                         </div>

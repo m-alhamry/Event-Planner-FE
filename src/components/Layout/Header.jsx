@@ -4,11 +4,9 @@ import { logout } from "../../services/authAPI";
 const Header = () => {
     const token = localStorage.getItem("access_token");
     const user = JSON.parse(localStorage.getItem("user"));
-
     const handleLogout = async () => {
         await logout();
     }
-
     return (
         <header className="header">
             <div className="container">
@@ -16,7 +14,6 @@ const Header = () => {
                     <Link to="/" className="logo">
                         Event Planner
                     </Link>
-
                     {token && (
                         <nav>
                             <ul className="nav-links">
@@ -28,7 +25,6 @@ const Header = () => {
                             </ul>
                         </nav>
                     )}
-
                     <div className="auth-buttons">
                         {token ? (
                             <>

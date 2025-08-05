@@ -36,7 +36,6 @@ const Signup = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-
         if (name === 'password') {
             validatePassword(value);
         }
@@ -46,13 +45,11 @@ const Signup = () => {
         e.preventDefault();
         setLoading(true);
         setErrors({});
-
         if (formData.password !== formData.password_confirm) {
             setErrors("Passwords do not match.");
             setLoading(false);
             return;
         }
-
         try {
             const newUser = await signup(formData);
             if (newUser) {
