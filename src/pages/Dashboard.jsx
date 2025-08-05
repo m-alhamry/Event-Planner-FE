@@ -110,11 +110,11 @@ const Dashboard = () => {
                         <div>
                             {recentEvents.map(event => {
                                 return (
-                                    <Link
-                                        to={`/events/${event.id}`}
-                                        style={{ textDecoration: 'none' }}
-                                    >
-                                        <div key={event.id} style={{ padding: '1rem 0', borderBottom: '1px solid #eee' }}>
+                                    <div key={event.id} style={{ padding: '1rem 0', borderBottom: '1px solid #eee' }}>
+                                        <Link
+                                            to={`/events/${event.id}`}
+                                            style={{ textDecoration: 'none' }}
+                                        >
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                                 <div style={{ flex: 1 }}>
                                                     <h4 style={{ marginBottom: '0.5rem' }}>{event.title}</h4>
@@ -157,8 +157,8 @@ const Dashboard = () => {
                                                     </span>
                                                 )}
                                             </div>
-                                        </div>
-                                    </Link>
+                                        </Link>
+                                    </div>
                                 );
                             })}
                         </div>
@@ -183,11 +183,11 @@ const Dashboard = () => {
                         <div>
                             {upcomingEvents.map(event => {
                                 return (
-                                    <Link
-                                        to={`/events/${event.id}`}
-                                        style={{ textDecoration: 'none' }}
-                                    >
-                                        <div key={event.id} style={{ padding: '1rem 0', borderBottom: '1px solid #eee' }}>
+                                    <div key={event.id} style={{ padding: '1rem 0', borderBottom: '1px solid #eee' }}>
+                                        <Link
+                                            to={`/events/${event.id}`}
+                                            style={{ textDecoration: 'none' }}
+                                        >
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                                 <div style={{ flex: 1 }}>
                                                     <h4 style={{ marginBottom: '0.5rem' }}>{event.title}</h4>
@@ -235,8 +235,8 @@ const Dashboard = () => {
                                                     )}
                                                 </div>
                                             </div>
-                                        </div>
-                                    </Link>
+                                        </Link>
+                                    </div>
                                 );
                             })}
                         </div>
