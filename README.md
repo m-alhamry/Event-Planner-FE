@@ -1,10 +1,10 @@
 # 🎉 Event Planner - Frontend
 
-![Event Planner - Login Page](images\event-planner-login.PNG)
+![Event Planner - Login Page](./images/event-planner-login.PNG)
 
-![Event Planner - Dashboard](images\event-planner-dashboard.PNG)
+![Event Planner - Dashboard](./images/event-planner-dashboard.PNG)
 
-![Event Planner - All Events Page](images\event-planner-event-details.PNG)
+![Event Planner - All Events Page](./images/event-planner-events.PNG)
 
 *A modern, responsive web application for managing and attending events. Built with React and Vite for optimal performance and user experience.*
 
