@@ -85,7 +85,7 @@ const EventDetail = () => {
       <div className="card">
         {/* Header section */}
         <div className="card-header">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center" style={{ display: 'flex', gap: '20px' }}>
             <div>
               <h1 className="card-title">{event.title}</h1>
               {isPast && (
