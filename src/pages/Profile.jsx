@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { updateProfile, updatePassword } from '../services/authAPI';
+import { updateProfile, updatePassword, deleteAccount } from '../services/authAPI';
 
 const Profile = () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
     const [activeTab, setActiveTab] = useState('profile');
+    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [deleteError, setDeleteError] = useState('');
+    const [deleteSuccess, setDeleteSuccess] = useState('');
 
     // Profile form state
     const [profileData, setProfileData] = useState({
@@ -92,6 +95,28 @@ const Profile = () => {
         }
 
         setPasswordLoading(false);
+    };
+
+    const handleDeleteAccount = async () => {
+        if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            return;
+        }
+
+        setDeleteLoading(true);
+        setDeleteError('');
+        setDeleteSuccess('');
+
+        try {
+            await deleteAccount();
+            setDeleteSuccess('Account deleted successfully.');
+        } catch (error) {
+            if (error.response && error.response.data) {
+                setDeleteError(error.response.data.detail || 'Failed to delete account');
+            } else {
+                setDeleteError('Failed to delete account');
+            }
+            setDeleteLoading(false);
+        }
     };
 
     return (
@@ -322,6 +347,32 @@ const Profile = () => {
                     </form>
                 </div>
             )}
+
+            {/* Delete Account Section */}
+            <div className="card" style={{ marginTop: '2rem' }}>
+                <div className="card-header">
+                    <h3 className="card-title">Delete Account</h3>
+                    <p style={{ color: '#666' }}>
+                        Permanently delete your account and all associated data. This action cannot be undone.
+                    </p>
+                </div>
+                <div className="card-body">
+                    {deleteSuccess && (
+                        <div className="success-message">{deleteSuccess}</div>
+                    )}
+                    {deleteError && (
+                        <div className="error-message">{deleteError}</div>
+                    )}
+                    <button
+                        onClick={handleDeleteAccount}
+                        className="btn btn-danger"
+                        disabled={deleteLoading}
+                        style={{ width: '100%' }}
+                    >
+                        {deleteLoading ? 'Deleting Account...' : 'Delete Account'}
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };

@@ -41,18 +41,20 @@ export const signin = async (credentials) => {
 export const logout = async () => {
     try {
         const refreshToken = localStorage.getItem("refresh_token");
-        if (refreshToken) {
+        const user = localStorage.getItem("user");
+        // Only send logout request if user and refresh token exist
+        if (refreshToken && user) {
             await Client.post("/auth/logout/", { refresh_token: refreshToken });
         }
-    }
-    catch (error) {
+    } catch (error) {
+        // Ignore errors (e.g., user already deleted)
     } finally {
-        // Clear local storage and remove Authorization header
+        // Clear local storage and redirect regardless of backend response
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("user");
         delete Client.defaults.headers.common["Authorization"];
-        window.location.href = "/"; // Redirect to login page
+        window.location.href = "/";
     }
 }
 
@@ -93,17 +95,19 @@ export const updatePassword = async (passwordData) => {
     }
 }
 
-// Uncomment if I want to implement account deletion
-// export const deleteAccount = async () => {
-//     try {
-//         await Client.delete("/auth/delete-account");
-//         // Clear local storage and remove Authorization header
-//         localStorage.removeItem("access_token");
-//         localStorage.removeItem("refresh_token");
-//         localStorage.removeItem("user");
-//         delete Client.defaults.headers.common["Authorization"];
-//         window.location.href = "/"; // Redirect to login page
-//     } catch (error) {
-//         throw error;
-//     }
-// }
+// User account deletion
+export const deleteAccount = async () => {
+    try {
+        const refreshToken = localStorage.getItem("refresh_token");
+        await Client.delete("/auth/delete-account/", {
+            data: { refresh_token: refreshToken }
+        });
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("user");
+        delete Client.defaults.headers.common["Authorization"];
+        window.location.href = "/";
+    } catch (error) {
+        throw error;
+    }
+}

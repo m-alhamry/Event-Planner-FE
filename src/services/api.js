@@ -10,8 +10,8 @@ const Client = axios.create({
 Client.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("access_token");
-        // Prevent adding token to refresh token requests
-        if (token && !config.url.includes("/auth/token/refresh/")) {
+        // Prevent adding token to refresh token or logout requests
+        if (token && !config.url.includes("/auth/token/refresh/") && !config.url.includes("/auth/logout/")) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
@@ -23,11 +23,13 @@ Client.interceptors.request.use(
 
 // Response interceptor to handle token refresh
 Client.interceptors.response.use(
-    (response) => 
-        response,
+    (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry) {
+        // Skip retry for logout or token refresh requests to prevent infinite loops
+        if (error.response.status === 401 && !originalRequest._retry &&
+            !originalRequest.url.includes("/auth/logout/") &&
+            !originalRequest.url.includes("/auth/token/refresh/")) {
             originalRequest._retry = true;
             try {
                 const refreshToken = localStorage.getItem("refresh_token");
@@ -40,7 +42,7 @@ Client.interceptors.response.use(
                     originalRequest.headers.Authorization = `Bearer ${access}`;
                     return Client(originalRequest);
                 }
-                // If no refresh token is available or refresh fails, clear local storage
+                // If no refresh token, clear local storage
                 localStorage.removeItem("access_token");
                 localStorage.removeItem("refresh_token");
                 localStorage.removeItem("user");
