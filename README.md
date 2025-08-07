@@ -21,7 +21,6 @@ Event Planner is a full-featured event management platform that allows users to 
 
 #### 🌐 Live Demo
 - **Frontend**: [event-planner-fe.onrender.com](https://event-planner-fe.onrender.com) - Access the user interface to sign up, create events, and manage your profile.
-- **Backend API**: [event-planner-be-8po3.onrender.com](https://event-planner-be-8po3.onrender.com) - The backend API (see backend repository for details).
 
 > **Note**: Hosted on Render's free tier, so it may take a moment to wake up.
 
