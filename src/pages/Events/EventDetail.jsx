@@ -65,6 +65,10 @@ const EventDetail = () => {
     }
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   // Show loading if still loading
   if (loading === true) {
     return <div className="loading">Loading event details...</div>;
@@ -107,22 +111,25 @@ const EventDetail = () => {
 
             {/* Action buttons */}
             <div className="flex gap-1">
-              <Link to="/events" className="btn btn-secondary btn-small">
-                ← Back to Events
-              </Link>
+              <button
+                onClick={goBack}
+                className="btn btn-secondary btn-small"
+              >
+                ← Back
+              </button>
               {isCreator && (
                 <>
                   <Link
                     to={`/events/${id}/edit`}
                     className="btn btn-info btn-small"
                   >
-                    Edit Event
+                    Edit
                   </Link>
                   <button
                     onClick={handleDeleteEvent}
                     className="btn btn-danger btn-small"
                   >
-                    Delete Event
+                    Delete
                   </button>
                 </>
               )}
