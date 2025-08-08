@@ -32,7 +32,7 @@ const Login = () => {
             }
         } catch (error) {
             if (error.response && error.response.data) {
-                setError(error.response.data.detail || 'Login failed');
+                setError(error.response.data.error || 'Login failed');
             } else {
                 setError('Login failed');
             }

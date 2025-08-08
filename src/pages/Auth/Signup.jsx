@@ -44,12 +44,37 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setErrors({});
-        if (formData.password !== formData.password_confirm) {
-            setErrors("Passwords do not match.");
+        if (!passwordValidity.minLength) {
+            setErrors({ password: 'Password must be at least 8 characters long.' });
             setLoading(false);
             return;
         }
+        if (!passwordValidity.uppercase) {
+            setErrors({ password: 'Password must contain at least one uppercase letter.' });
+            setLoading(false);
+            return;
+        }
+        if (!passwordValidity.lowercase) {
+            setErrors({ password: 'Password must contain at least one lowercase letter.' });
+            setLoading(false);
+            return;
+        }
+        if (!passwordValidity.number) {
+            setErrors({ password: 'Password must contain at least one number.' });
+            setLoading(false);
+            return;
+        }
+        if (!passwordValidity.specialChar) {
+            setErrors({ password: 'Password must contain at least one special character.' });
+            setLoading(false);
+            return;
+        }
+        if (formData.password !== formData.password_confirm) {
+            setErrors({ password_confirm: "Passwords do not match." });
+            setLoading(false);
+            return;
+        }
+        setErrors({});
         try {
             const newUser = await signup(formData);
             if (newUser) {
@@ -187,7 +212,7 @@ const Signup = () => {
                         {passwordValidity.specialChar ? '✓' : '✗'} At least one special character
                     </p>
                 </div>
-                
+
 
                 <div className="form-group">
                     <label htmlFor="password_confirm" className="form-label">

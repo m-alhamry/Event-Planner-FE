@@ -13,7 +13,7 @@ export const signup = async (userData) => {
             Client.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
             return user;
         }
-        throw new Error("Signup failed: Invalid response data");
+        throw new Error(response.error);
     } catch (error) {
         throw error;
     }
