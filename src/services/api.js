@@ -11,7 +11,7 @@ Client.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem("access_token");
         // Prevent adding token to refresh token or logout requests
-        if (token && !config.url.includes("/auth/token/refresh/") && !config.url.includes("/auth/logout/")) {
+        if (token && !config.url.includes("/auth/token/refresh/")) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
@@ -28,7 +28,6 @@ Client.interceptors.response.use(
         const originalRequest = error.config;
         // Skip retry for logout or token refresh requests to prevent infinite loops
         if (error.response.status === 401 && !originalRequest._retry &&
-            !originalRequest.url.includes("/auth/logout/") &&
             !originalRequest.url.includes("/auth/token/refresh/")) {
             originalRequest._retry = true;
             try {
